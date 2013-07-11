@@ -6,13 +6,13 @@ class Test_settings(unittest.TestCase):
     def setUp(self):
         pass
     """
-    def test_settings_should_create_a_new_config_file_if_there_is_not_exists(self):
-        settings_xml = settings.Settings()
-        if(not os.path.exists(settings_xml.xml_file_path)):
-            settings_xml.create_xml_file()
-        result = os.path.exists(settings_xml.xml_file_path)
-        self.assertTrue(result)
-    """
+def test_settings_should_create_a_new_config_file_if_there_is_not_exists(self):
+settings_xml = settings.Settings()
+if(not os.path.exists(settings_xml.xml_file_path)):
+settings_xml.create_xml_file()
+result = os.path.exists(settings_xml.xml_file_path)
+self.assertTrue(result)
+"""
 
     def test_set_config_should_update_value_for_algorithm_to_backtracking(self):
         new_default = "Backtracking"

@@ -1,29 +1,29 @@
 """
 <SUDOKU>
 
-    <Algorithms>
-        <Algorithm default="False" name="Peter Norvig" />
-        <Algorithm default="True" name="Backtracking" />
-        <Algorithm default="False" name="Brute Force" />
-    </Algorithms>
+<Algorithms>
+<Algorithm default="False" name="Peter Norvig" />
+<Algorithm default="True" name="Backtracking" />
+<Algorithm default="False" name="Brute Force" />
+</Algorithms>
 
-    <Levels>
-        <Level default="True" max="25" min="20" name="Easy" />
-        <Level default="False" max="35" min="30" name="Medium" />
-        <Level default="False" max="45" min="40" name="Hard" />
-    </Levels>
+<Levels>
+<Level default="True" max="25" min="20" name="Easy" />
+<Level default="False" max="35" min="30" name="Medium" />
+<Level default="False" max="45" min="40" name="Hard" />
+</Levels>
 
-    <Outputs>
-        <Output default="True" name="Console" />
-        <Output default="False" name="Text File" />
-        <Output default="False" name="CSV file" />
-    </Outputs>
+<Outputs>
+<Output default="True" name="Console" />
+<Output default="False" name="Text File" />
+<Output default="False" name="CSV file" />
+</Outputs>
 
-    <Inputs>
-        <Input default="False" name="Console" />
-        <Input default="True" name="Text File" />
-        <Input default="False" name="CSV File" />
-    </Inputs>
+<Inputs>
+<Input default="False" name="Console" />
+<Input default="True" name="Text File" />
+<Input default="False" name="CSV File" />
+</Inputs>
 
 </SUDOKU>
 """
@@ -49,10 +49,8 @@ class Settings:
     def get_name_for_current_setting(self, setting):
         """This method returns the name for current setting. In other words the
         setting with default value equals True
-
         Keyword arguments:
-        setting -- name of the setting as string(default None)
-        """
+        setting -- name of the setting as string(default None)"""
         for element in self.root.iter(setting):
             if element.attrib["default"] == 'True':
                 return element.attrib["name"]
@@ -61,10 +59,8 @@ class Settings:
     def get_attribute_value_for_setting(self, node_setting, setting_name, attribute):
         """This method returns the name for current setting. In other words the
         setting with default value equals True
-
         Keyword arguments:
-        setting -- name of the setting as string(default None)
-        """
+        setting -- name of the setting as string(default None)"""
         for element in self.root.iter(node_setting):
             if element.attrib["name"] == setting_name:
                 return element.attrib[attribute]
@@ -72,11 +68,10 @@ class Settings:
 
     def set_config(self, node_setting, new_default_setting):
         """This method updates the 'default' value to 'True' for the setting.
-
         Keyword arguments:
         node_setting -- name of the node to find settings. String(default None)
-        new_default_setting -- new setting to be default setting. String(default None)
-        """
+        new_default_setting -- new setting to be default setting.
+        String(default None)"""
         for element in self.root.iter(node_setting):
             if element.attrib["name"] == new_default_setting:
                 element.set('default', 'True')
@@ -85,13 +80,11 @@ class Settings:
 
     def set_config_attributes(self, node_setting, setting_name, attribute, new_value):
         """This method updates the 'default' value to 'True' for the setting.
-
         Keyword arguments:
         setting -- name of the setting as string(default None)
         setting_name -- name of the setting as string(default None)
         new_value -- new value of the setting as string(default None)
-        attribute -- name of attribute in the setting to update his value as string(default None)
-        """
+        attribute -- name of attribute in the setting to update his value as string(default None)"""
         for element in self.root.iter(node_setting):
             if element.attrib["name"] == setting_name:
                 element.set(attribute, new_value)
@@ -103,6 +96,6 @@ class Settings:
 
     def read_settings_from_file(self):
         """This method update the 'tree' and 'root' data parsed
-        from XML config file"""
+from XML config file"""
         self.tree = ET.parse(self.xml_file_path)
         self.root = self.tree.getroot()

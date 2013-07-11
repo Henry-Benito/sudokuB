@@ -30,11 +30,8 @@ class Sudoku:
                         self.sudoku_settings.write_settings()
                 self.user_option = "0"
             else:
-			execute()
-			self.user_option = self.sudoku_menu.display_submenu()
-
-
-
+                execute()
+                self.user_option = self.sudoku_menu.display_submenu()
 
 
 if __name__ == '__main__':

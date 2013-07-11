@@ -1,4 +1,3 @@
-
 import time
 from settings import Settings
 
@@ -70,10 +69,7 @@ class Menu:
     EXIT_GAME_OPTION = "x"
     def __validate_an_option_and_run_it(self, user_option):
         """Execute the method according to user_option value
-
-        Keyword arguments:
-        user_option -- value of option according to menu
-        """
+        Keyword arguments:user_option -- value of option according to menu"""
         if user_option is None:
             print "is None"
         if user_option[-1] == self.EXIT_GAME_OPTION:
@@ -161,10 +157,8 @@ class Menu:
 
     def __display_modify_default_setting(self, setting_to_modify):
         """Display options for setting to be modifed as the method according to user_option value
-
         Keyword arguments:
-        setting_to_modify -- setting used to get a list of different values
-        """
+        setting_to_modify -- setting used to get a list of different values"""
         setting = setting_to_modify
         print "\n\nSet default " + setting
         elements = self.sudoku_settings.get_setting_list_to(setting)
@@ -192,10 +186,8 @@ class Menu:
 
     def __display_select_setting_name_to_modify_attributes(self, setting_to_modify):
         """Display names of setting to modify his attributes
-
         Keyword arguments:
-        setting_to_modify -- setting used to get a list of different values
-        """
+        setting_to_modify -- setting used to get a list of different values"""
         setting = setting_to_modify
         print "\n\nSet attributes for " + setting + ":"
         elements = self.sudoku_settings.get_setting_list_to(setting)
@@ -222,11 +214,9 @@ class Menu:
 
     def __set_attributes_for_setting(self, setting, setting_name):
         """Display list of attributes to be modified
-
         Keyword arguments:
         setting -- name of current setting i.e. Algorithm
-        setting_name -- name of setting value i.e. Peter Norvig
-        """
+        setting_name -- name of setting value i.e. Peter Norvig"""
         print "\n\nAttributes for " + setting_name + ":"
         elements = self.sudoku_settings.get_setting_list_to(setting)
 

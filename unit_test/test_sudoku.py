@@ -1,12 +1,12 @@
 #-------------------------------------------------------------------------------
-# Name:        module1
+# Name: module1
 # Purpose:
 #
-# Author:      henry benito
+# Author: henry benito
 #
-# Created:     02/07/2013
-# Copyright:   (c) henry benito 2013
-# Licence:     <your licence>
+# Created: 02/07/2013
+# Copyright: (c) henry benito 2013
+# Licence: <your licence>
 #-------------------------------------------------------------------------------
 
 def main():

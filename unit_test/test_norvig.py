@@ -1,18 +1,23 @@
 import unittest
+import sys
+sys.path.append("..\src\\algorithms")
 from norvig_algorithm import Norvig
 
 class TestNorvig(unittest.TestCase):
     def setUp(self):
-        self.grid1  = '003020600900305001001806400008102900700000008006708200'+
-                      '002609500800203009005010300'
-        self.grid2  = '4.....8.5.3..........7......2.....6.....8.4......1....'+
-                      '...6.3.7.5..2.....1.4......'
-        self.hard1  = '.....6....59.....82....8....45........3........6..3.54'+
-                      '...325..6..................'
+        self.grid1 = '003020600900305001001806400008102900700000008006708200' \
+                     '002609500800203009005010300'
+        self.grid2 = '4.....8.5.3..........7......2.....6.....8.4......1....' \
+                     '...6.3.7.5..2.....1.4......'
+        self.hard1 = '.....6....59.....82....8....45........3........6..3.54' \
+                     '...325..6..................'
         self.norvig = Norvig()
+        self.filename1 = 'hardest'
+        self.filename2 = 'top95'
+        self.path = "..\\custom_games"
 
     def test_verify_solution_for_easy_grid(self):
-        expected_result_grid1 = '48392165796734582125187649354813297672956413'+
+        expected_result_grid1 = '48392165796734582125187649354813297672956413' \
                                 '8136798245372689514814253769695417382'
         unsort_list = self.norvig.parse_grid(self.grid1)
         nums = ''
@@ -21,7 +26,7 @@ class TestNorvig(unittest.TestCase):
         self.assertEqual(expected_result_grid1, nums)
 
     def test_verify_solution_for_normal_grid(self):
-        expected_result_grid2 = '41736982563215894795872431682543716979158643'+
+        expected_result_grid2 = '41736982563215894795872431682543716979158643' \
                                 '2346912758289643571573291684164875293'
         unsort_list = self.norvig.solve(self.grid2)
         nums = ''
@@ -29,15 +34,16 @@ class TestNorvig(unittest.TestCase):
             nums = nums + str(unsort_list[key])
         self.assertEqual(expected_result_grid2, nums)
 
-    def test_verify_solution_for_hard_grid(self):
+    '''def test_verify_solution_for_hard_grid(self):
         import time
-        expected_result_hard1 = '43879621565913247827145869384521936771356482'+
+        expected_result_hard1 = '43879621565913247827145869384521936771356482' \
                                 '9926873154194325786362987541587641932'
         unsort_list = self.norvig.solve(self.hard1)
         nums = ''
         for key in sorted(unsort_list.iterkeys()):
             nums = nums + str(unsort_list[key])
         self.assertEqual(expected_result_hard1, nums[-81:])
+
     def test_verify_that_the_cross_method_generate_the_peers(self):
         self.cols = '123456789'
         self.rows = 'ABCDEFGHI'
@@ -51,6 +57,7 @@ class TestNorvig(unittest.TestCase):
                           'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9',
                           'I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8', 'I9']
         self.assertEqual(expected_peers, self.norvig.cross(self.rows, self.cols))
+
     def test_verify_that_parse_grid_generate_a_grid_of_posible_values(self):
         expected_grid = {'I6': '5789', 'H9': '4689', 'I2': '6789', 'E8': '12359',
                          'H3': '3', 'H7': '69', 'I7': '23569', 'I4': '589',
@@ -98,7 +105,18 @@ class TestNorvig(unittest.TestCase):
                                'B2': '0', 'B3': '0', 'D6': '2', 'D7': '9',
                                'D4': '1', 'D5': '0', 'B8': '0', 'B9': '1',
                                'D1': '0'}
-        self.assertEqual(expected_zeros_grid, self.norvig.grid_values(self.grid1))
+        self.assertEqual(expected_zeros_grid, self.norvig.grid_values(self.grid1))'''
+
+    def test_sudoku_games_from_file(self):
+        self.norvig.read_from_file(self.path)
+
+    def test_verify_directory_of_sudoku_games_exist(self):
+        import os.path
+        if os.path.isdir(self.path):
+          res = True
+        else:
+          res = False
+        self.assertTrue(res)
 
 if __name__ == '__main__':
     unittest.main()

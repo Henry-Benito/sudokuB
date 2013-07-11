@@ -1,0 +1,35 @@
+import unittest
+sys.path.append("..\src\\algorithms")
+from backtracking import backtracking
+
+class Test_Backtracking(unittest.TestCase):
+	
+	def setUp(self):
+        self.easy = '003020600900305001001806400008102900700000008006708200' \
+                     '002609500800203009005010300'
+        self.grid2 = '4.....8.5.3..........7......2.....6.....8.4......1....' \
+                     '...6.3.7.5..2.....1.4......'
+        self.hard1 = '.....6....59.....82....8....45........3........6..3.54' \
+                     '...325..6..................'
+        self.back = backtracking()
+
+    def test_verify_solution_for_easy_grid(self):
+        expected_result_easy = '48392165796734582125187649354813297672956413' \
+                                '8136798245372689514814253769695417382'
+        unsort_list = self.back.solve(self.easy)
+        nums = ''
+        for key in sorted(unsort_list.iterkeys()):
+            nums = nums + str(unsort_list[key])
+        self.assertEqual(expected_result_easy, nums)
+
+    """def test_verify_solution_for_normal_grid(self):
+        expected_result_grid2 = '41736982563215894795872431682543716979158643' \
+                                '2346912758289643571573291684164875293'
+        unsort_list = self.norvig.solve(self.grid2)
+        nums = ''
+        for key in sorted(unsort_list.iterkeys()):
+            nums = nums + str(unsort_list[key])
+        self.assertEqual(expected_result_grid2, nums)
+    """
+if __name__ == '__main__':
+    unittest.main()
