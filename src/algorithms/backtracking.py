@@ -25,7 +25,6 @@ class Backtracking(Algorithm):
             if (dig + 1) % 9 == 0:
                 data_in_lines.append(line)
                 line = ""
-        #board = [[int(value) for value in line.strip()] for line in data]
         board = [[int(value) for value in line.strip()] for line in data_in_lines]
         empty_squares = list((row, column) for row in range(9) for column in range(9) \
                              if board[row][column] == 0)
@@ -44,8 +43,8 @@ class Backtracking(Algorithm):
         row, col = position
         adjacent = tuple(board[row][y] for y in range(9)) + \
                    tuple(board[x][col] for x in range(9)) + \
-                   tuple(board[x][y] for x in range(int(row / 3) * 3, int(row/3) * 3 + 3) \
-                                     for y in range(int(col / 3) * 3, int(col/3) * 3 + 3))
+                   tuple(board[x][y] for x in range(int(row / 3) * 3, int(row / 3) * 3 + 3) \
+                                     for y in range(int(col / 3) * 3, int(col / 3) * 3 + 3))
 
         for value in range(1, 10):
             if value not in adjacent:
@@ -66,13 +65,13 @@ class Backtracking(Algorithm):
                    {(x, y) for x in range(int(row / 3) * 3, int(row / 3) * 3 + 3) \
                           for y in range(int(col / 3) * 3, int(col / 3) * 3 + 3)}
         adjacent.discard(cell)
-
-        return sum(1 for near in adjacent if value in self.possible_values(board, near))
+        res = sum(1 for near in adjacent if value in self.possible_values(board, near))
+        return res
 
     def resolve(self, board, empty_cells):
         """
         Returns a solved version of the initial Sudoku board.
-        Board must be 9*9 grid of integers
+        Board must be 9 * 9 grid of integers
 
         Keyword arguments:
         board -- list of values for sudoku
@@ -90,11 +89,11 @@ class Backtracking(Algorithm):
               key = lambda value: self.least_constraining_value(board, (row, col), value))
 
         for value in sorted_possible_values:
-            newBoard = deepcopy(board)
-            newBoard[row][col] = value
-            newBoard = self.resolve(newBoard, copy(empty_cells))
-            if newBoard:
-                return newBoard
+            new_board = deepcopy(board)
+            new_board[row][col] = value
+            new_board = self.resolve(new_board, copy(empty_cells))
+            if new_board:
+                return new_board
 
         return False
 

@@ -20,10 +20,10 @@ class Algorithm:
         Keyword arguments:
         values -- dictionary with values for sudoku solved
         """
-        width = 1+max(len(values[s]) for s in self.squares)
-        line = '+'.join(['-'*(width*3)]*3)
+        width = 1 + max(len(values[s]) for s in self.squares)
+        line = '+'.join(['-' * (width * 3)] * 3)
         for r in self.rows:
-            print ''.join(values[r+c].center(width)+('|' if c in '36' else '')
+            print ''.join(values[r + c].center(width) + ('|' if c in '36' else '')
                           for c in self.cols)
             if r in 'CF':
                 print line
@@ -32,7 +32,7 @@ class Algorithm:
     def cross(self, A, B):
         """Cross product of elements in A and elements in B.
         """
-        return [a+b for a in A for b in B]
+        return [a + b for a in A for b in B]
 
     def dict_to_string(self, dictionary):
         string_result = ""
