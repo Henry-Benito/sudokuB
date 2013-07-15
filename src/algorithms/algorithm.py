@@ -7,7 +7,7 @@ class Algorithm:
         self.squares = self.cross(self.rows, self.cols)
 
     def solve(self, grid):
-        """Returns a dictionary with values for sudoku solved.
+        """Return a dictionary with values for sudoku solved.
 
         Keyword arguments:
         grid -- string with values for initial status of a sudoku
@@ -30,7 +30,10 @@ class Algorithm:
         print
 
     def cross(self, A, B):
-        """Cross product of elements in A and elements in B.
+        """Do a cross product of elements in A and elements in B and return a list.
+        Keyword arguments:
+        A -- string with elements to combine with other.
+        B -- string with elements to combine with other.
         """
         return [a + b for a in A for b in B]
 

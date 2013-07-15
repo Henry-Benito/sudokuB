@@ -52,7 +52,7 @@ class Backtracking(Algorithm):
 
     def least_constraining_value(self, board, cell, value):
         """
-        Function used in calculating least constraining value heuristic.
+        Returns a number after calculate least constraining value heuristic.
         Keyword arguments:
         board -- list of values for sudoku
         cell -- tuple of row and column
@@ -65,8 +65,8 @@ class Backtracking(Algorithm):
                    {(x, y) for x in range(int(row / 3) * 3, int(row / 3) * 3 + 3) \
                           for y in range(int(col / 3) * 3, int(col / 3) * 3 + 3)}
         adjacent.discard(cell)
-        res = sum(1 for near in adjacent if value in self.possible_values(board, near))
-        return res
+        least_constraint = sum(1 for near in adjacent if value in self.possible_values(board, near))
+        return least_constraint
 
     def resolve(self, board, empty_cells):
         """
