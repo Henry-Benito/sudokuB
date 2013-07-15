@@ -1,61 +1,118 @@
+import re
 import time
 from settings import Settings
 
 
 class Menu:
     def __init__(self):
-        self.menu_option = {"m": [self.display_main_menu],
-                            "1": [self.start_game],
-                            "2": [self.display_settings],
-                            "3": [self.display_modify_settings],
-                            "3.1": [self.__display_modify_algorithm],
-                            "3.1.1": [self.__display_modify_default_setting,
-                                      "Algorithm"],
-                            "3.2": [self.__display_modify_level],
-                            "3.2.1": [self.__display_modify_default_setting, "Level"],
-                            "3.2.2": [self.__display_select_setting_name_to_modify_attributes, "Level"],
-                            "3.3": [self.__display_modify_input],
-                            "3.3.1": [self.__display_modify_default_setting, "Input"],
-                            "3.3.2": [self.__display_select_setting_name_to_modify_attributes, "Input"],
-                            "3.4": [self.__display_modify_output],
-                            "3.4.1": [self.__display_modify_default_setting, "Output"],
-                            "3.4.2": [self.__display_select_setting_name_to_modify_attributes, "Output"]}
+
+        self.settings = ["Algorithm", "Level", "Input", "Output"]
+
+        self.go_main_menu_option = "m"
+        self.exit_game_option = "x"
+        self.list_of_char_options = [self.go_main_menu_option, self.exit_game_option]
+        self.menu_options = {self.exit_game_option: [self.exit],
+                             self.go_main_menu_option: [self.go_to_main_menu],
+                             "1": [self.start_game],
+                             "2": [self.display_settings],
+                             "3": [self.display_modify_settings],
+                             "3.1": [self.display_modify_setting_options, self.settings[0]],
+                             "3.1.1": [self.__display_modify_default_setting,
+                                       self.settings[0]],
+                             "3.2": [self.display_modify_setting_options, self.settings[1]],
+                             "3.2.1": [self.__display_modify_default_setting, self.settings[1]],
+                             "3.2.2": [self.__display_select_setting_name_to_modify_attributes,
+                                       self.settings[1]],
+                             "3.3": [self.display_modify_setting_options, self.settings[2]],
+                             "3.3.1": [self.__display_modify_default_setting, self.settings[2]],
+                             "3.3.2": [self.__display_select_setting_name_to_modify_attributes,
+                                       self.settings[2]],
+                             "3.4": [self.display_modify_setting_options, self.settings[3]],
+                             "3.4.1": [self.__display_modify_default_setting, self.settings[3]],
+                             "3.4.2": [self.__display_select_setting_name_to_modify_attributes,
+                                       self.settings[3]]}
 
         self.sudoku_settings = Settings()
         self.status = ""
 
-        while self.status != "exit":
-            self.display_main_menu()
+    def run_application(self):
+        while self.status != self.exit_game_option:
+            if self.status == self.go_main_menu_option or self.status == "":
+                self.display_main_menu()
+            self.get_option_value_from_user()
+            self.validate_user_option()
+            self.__run_method_according_option()
 
+    def get_option_value_from_user(self):
+        try:
+            self.user_option = str(raw_input("Please enter an option:"))
+        except:
+            self.user_option = "m"
+
+    def validate_user_option(self):
+        good_input_values = "^(" + self.exit_game_option + "|" + self.go_main_menu_option \
+                            + "|\d){1}$"
+        if re.match(good_input_values, self.user_option):
+            self.user_option = self.status + self.user_option
+            last_character = self.user_option[-1]
+            if self.__is_a_char_option(last_character):
+                self.user_option = last_character
+            if not self.menu_options.has_key(self.user_option):
+                self.user_option = None
+        else:
+            self.user_option = "m"
+
+    def __is_a_char_option(self, last_character):
+        for char_options in self.list_of_char_options:
+            if self.menu_options.has_key(last_character) and char_options == last_character:
+                return True
+        return False
+
+    def __run_method_according_option(self):
+        """Execute the method according to user_option value
+
+        Keyword arguments:
+        user_option -- value of option according to menu
+        """
+        if self.user_option is not None:
+            list_execute = self.menu_options[self.user_option]
+            function_execute = list_execute[0]
+            if len(list_execute) > 1:
+                function_execute(list_execute[1])
+            else:
+                function_execute()
+        else:
+            self.status = self.go_main_menu_option
 
     def display_main_menu(self):
+        self.status = ""
+
         """Display main menu for sudoku game"""
-        self.status = "m"
-        user_option = str(raw_input("\n\nSUDOKU Menu\n" +
-                                    "------------------------\n" +
-                                    "1. Play\n" +
-                                    "2. Display settings\n" +
-                                    "3. Modify settings\n" +
-                                    "x. Exit\n" +
-                                    "Please enter an option number:"))
-        self.__validate_an_option_and_run_it(user_option)
+        print ("\n\n" +
+               "SUDOKU Menu\n" +
+               "------------------------\n" +
+               "1. Play\n" +
+               "2. Display settings\n" +
+               "3. Modify settings\n" +
+               "x. Exit\n")
 
     def start_game(self):
         """Start the game with default settings"""
-        print "Trying to start game"
+        print "\n\nTrying to start game.....\n\n"
+        self.status = self.go_main_menu_option
 
     def display_settings(self):
         """Display configurations values(read from XML config file) for sudoku game"""
         print "\n\nSettings for Sudoku game"
         print "========================"
-        list_of_settings = ["Algorithm", "Level", "Input", "Output"]
+        list_of_settings = self.settings
         for setting in list_of_settings:
             print "\t", setting, ":"
             elements = self.sudoku_settings.get_setting_list_to(setting)
             for element in elements:
                 element_name = "\t\t-" + element.attrib["name"]
                 if element.attrib["default"] == "True":
-                     element_name += " (Default)"
+                    element_name += " (Default)"
                 print element_name
 
                 attributes = element.attrib.keys()
@@ -64,25 +121,8 @@ class Menu:
                         print "\t\t\t" + attribute + " = " + element.attrib[attribute]
 
         print "========================="
-        time.sleep(15)
-
-    EXIT_GAME_OPTION = "x"
-    def __validate_an_option_and_run_it(self, user_option):
-        """Execute the method according to user_option value
-        Keyword arguments:user_option -- value of option according to menu"""
-        if user_option is None:
-            print "is None"
-        if user_option[-1] == self.EXIT_GAME_OPTION:
-            self.status = "exit"
-        elif user_option[-1] == "m":
-            pass
-        else:
-            list_execute = self.menu_option[user_option]
-            function_execute = list_execute[0]
-            if len(list_execute) > 1:
-                function_execute(list_execute[1])
-            else:
-                function_execute()
+        time.sleep(3)
+        self.status = self.go_main_menu_option
 
     def display_modify_settings(self):
         """Display menu of different settings from XML config file"""
@@ -98,96 +138,76 @@ class Menu:
         print "m. Back to main menu"
         print "x. Exit"
 
-        user_option = raw_input("Please enter a number for setting to be modified:")
-        self.__validate_an_option_and_run_it(self.status + user_option)
+    def display_modify_setting_options(self, setting):
+        """Display menu of different options to modify a setting"""
 
-    def __display_modify_algorithm(self):
-        """Display menu of different option to modify Algorithm"""
+        self.menu_string = ""
 
-        self.status = "3.1."
-        print "\n\nAlgorithm options"
-        print "1. Modify algorithm by default"
-        print "m. Go to main menu"
-        print "x. Exit"
+        for index_setting in range(1, len(self.settings)+1):
+            if self.settings[index_setting - 1] == setting:
+                self.status = "3." + str(index_setting) + "."
+                index_setting_number = index_setting
+                break
 
-        user_option = raw_input("Please enter a number:")
-        self.__validate_an_option_and_run_it(self.status + user_option)
+        self.menu_string = "\n\nModify " + setting + " options:\n" + \
+                           "==========================\n" + \
+                           "1. Modify " + setting + " by default\n"
 
-    def __display_modify_level(self):
-        """Display menu of different option to modify Level"""
+        if index_setting_number != 0: #0 refers to Algorithm
+            self.menu_string += "2. Modify " + setting + " attributes\n"
 
-        self.status = "3.2."
-
-        print "\n\nLevel options"
-        print "1. Modify level by default"
-        print "2. Modify level attributes"
-        print "m. Go to main menu"
-        print "x. Exit"
-
-        user_option = raw_input("Please enter a number:")
-        self.__validate_an_option_and_run_it(self.status + user_option)
-
-    def __display_modify_input(self):
-        """Display menu of different option to modify Input"""
-
-        self.status = "3.3."
-
-        print "\n\nInput Games options"
-        print "1. Modify Input Game method by default"
-        print "2. Modify Input attributes"
-        print "m. Go to main menu"
-        print "x. Exit"
-
-        user_option = raw_input("Please enter a number:")
-        self.__validate_an_option_and_run_it(self.status + user_option)
-
-    def __display_modify_output(self):
-        """Display menu of different option to modify Output"""
-
-        self.status = "3.4."
-
-        print "\n\nResults Output options"
-        print "1. Modify Result output method by default"
-        print "2. Modify Result output attributes"
-        print "m. Go to main menu"
-        print "x. Exit"
-
-        user_option = raw_input("Please enter a number:")
-        self.__validate_an_option_and_run_it(self.status + user_option)
+        self.menu_string = self.menu_string + \
+                           "m. Go to main menu\n" + \
+                           "x. Exit"
+        print self.menu_string
 
     def __display_modify_default_setting(self, setting_to_modify):
         """Display options for setting to be modifed as the method according to user_option value
+
         Keyword arguments:
-        setting_to_modify -- setting used to get a list of different values"""
+        setting_to_modify -- setting used to get a list of different values
+        """
         setting = setting_to_modify
         print "\n\nSet default " + setting
         elements = self.sudoku_settings.get_setting_list_to(setting)
         list_of_settings = []
+        good_input_values = ""
         counter_index = 1
 
         for element in elements:
             print str(counter_index)+". " + element.attrib["name"]
             list_of_settings.append(element.attrib["name"])
+            good_input_values += "|"+str(counter_index)
             counter_index += 1
+
         print "m. Go to main menu"
         print "x. Exit"
+        self.get_option_value_from_user()
 
-        new_setting = str(raw_input("Please enter a value:"))
-
-        if new_setting == "x":
-            self.status = "exit"
-        elif new_setting == "m":
-            pass
-        elif int(new_setting) >= 1 and int(new_setting) <= len(list_of_settings):
-            self.sudoku_settings.set_config(setting, list_of_settings[int(new_setting) - 1])
+        if self.is_a_valid_user_option_from_dinamic_list(good_input_values):
+            self.sudoku_settings.set_config(setting, list_of_settings[int(self.user_option) - 1])
             self.sudoku_settings.write_settings()
+        self.status = "m"
+
+    def is_a_valid_user_option_from_dinamic_list(self, good_input_values):
+        patron_input_values = "^(" + self.exit_game_option + "|" + self.go_main_menu_option + \
+                              good_input_values + "){1}$"
+        print patron_input_values
+        if re.match(good_input_values, self.user_option):
+            print self.user_option
+            if self.user_option == self.exit_game_option or \
+               self.user_option == self.go_main_menu_option:
+                return False
+            return True
         else:
-            pass
+            return False
 
     def __display_select_setting_name_to_modify_attributes(self, setting_to_modify):
         """Display names of setting to modify his attributes
+
         Keyword arguments:
-        setting_to_modify -- setting used to get a list of different values"""
+        setting_to_modify -- setting used to get a list of different values
+        """
         setting = setting_to_modify
         print "\n\nSet attributes for " + setting + ":"
         elements = self.sudoku_settings.get_setting_list_to(setting)
@@ -214,9 +234,11 @@ class Menu:
 
     def __set_attributes_for_setting(self, setting, setting_name):
         """Display list of attributes to be modified
+
         Keyword arguments:
         setting -- name of current setting i.e. Algorithm
-        setting_name -- name of setting value i.e. Peter Norvig"""
+        setting_name -- name of setting value i.e. Peter Norvig
+        """
         print "\n\nAttributes for " + setting_name + ":"
         elements = self.sudoku_settings.get_setting_list_to(setting)
 
@@ -226,9 +248,18 @@ class Menu:
         for attribute in elements[element_index].attrib.keys():
             if attribute != "name" and attribute != "default":
                 new_value = str(raw_input("Please enter a new value for " + attribute + ":"))
-                self.sudoku_settings.set_config_attributes(setting, setting_name, attribute, new_value)
+                self.sudoku_settings.set_config_attributes(setting, setting_name, attribute,
+                                                           new_value)
                 self.sudoku_settings.write_settings()
+        self.status = "m"
+        print "Settings changed successfully.\nReturning to main menu..."
 
+    def exit(self):
+        self.status = self.exit_game_option
+
+    def go_to_main_menu(self):
+        self.status = self.go_main_menu_option
 
 if __name__ == '__main__':
-    Menu()
+    m = Menu()
+    m.run_application()

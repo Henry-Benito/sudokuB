@@ -1,32 +1,3 @@
-"""
-<SUDOKU>
-
-<Algorithms>
-<Algorithm default="False" name="Peter Norvig" />
-<Algorithm default="True" name="Backtracking" />
-<Algorithm default="False" name="Brute Force" />
-</Algorithms>
-
-<Levels>
-<Level default="True" max="25" min="20" name="Easy" />
-<Level default="False" max="35" min="30" name="Medium" />
-<Level default="False" max="45" min="40" name="Hard" />
-</Levels>
-
-<Outputs>
-<Output default="True" name="Console" />
-<Output default="False" name="Text File" />
-<Output default="False" name="CSV file" />
-</Outputs>
-
-<Inputs>
-<Input default="False" name="Console" />
-<Input default="True" name="Text File" />
-<Input default="False" name="CSV File" />
-</Inputs>
-
-</SUDOKU>
-"""
 import xml.etree.ElementTree as ET
 
 
@@ -34,7 +5,7 @@ class Settings:
 
     def __init__(self):
         self.root = ET.Element('sudoku')
-        self.xml_file_path = "Config.xml"
+        self.xml_file_path = "../src/config.xml"
         self.read_settings_from_file()
 
     def get_setting_list_to(self, setting):
@@ -43,8 +14,15 @@ class Settings:
 
     def get_current_settings(self):
         """This method gets current settings. It returns a list of elements"""
-        elements = self.root.findall(".//[@default='True']")
-        return elements
+        current_settings = {}
+        elements = self.root.findall('.//*[@default="True"]')
+        for element in elements:
+            if str(element.tag) == "Level":
+                current_settings["max"] = element.attrib["max"]
+                current_settings["min"] = element.attrib["min"]
+            else:
+                current_settings[str(element.tag)] = element.attrib["name"]
+        return current_settings
 
     def get_name_for_current_setting(self, setting):
         """This method returns the name for current setting. In other words the

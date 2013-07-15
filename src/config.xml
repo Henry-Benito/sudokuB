@@ -1,13 +1,13 @@
 <SUDOKU>
 
     <Algorithms>
-        <Algorithm default="True" name="Peter Norvig" />
-        <Algorithm default="False" name="Backtracking" />
+        <Algorithm default="False" name="Peter Norvig" />
+        <Algorithm default="True" name="Backtracking" />
         <Algorithm default="False" name="Brute Force" />
     </Algorithms>
     
     <Difficult>
-        <Level default="False" max="25" min="20" name="Easy" />
+        <Level default="False" max="35" min="20" name="Easy" />
         <Level default="False" max="1" min="20" name="Medium" />
         <Level default="True" max="50" min="20" name="Hard" />
     </Difficult>
