@@ -29,13 +29,17 @@ class Algorithm:
                 print line
         print
 
-    def cross(self, A, B):
-        """Do a cross product of elements in A and elements in B and return a list.
+    def cross(self, first_list, second_list):
+        """Do a scalar product of elements in first_list and elements in second_list
+        and return a list.
         Keyword arguments:
-        A -- string with elements to combine with other.
-        B -- string with elements to combine with other.
+        first_list -- a iterable with elements to combine with other.
+        second_list -- a iterable with elements to combine with other.
         """
-        return [a + b for a in A for b in B]
+        scalar_product = [element_first_list + element_sec_list \
+                          for element_first_list in first_list \
+                          for element_sec_list in second_list]
+        return scalar_product
 
     def dict_to_string(self, dictionary):
         string_result = ""

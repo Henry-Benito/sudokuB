@@ -9,11 +9,13 @@ class Settings:
         self.read_settings_from_file()
 
     def get_setting_list_to(self, setting):
+        """Return a list of elements according to setting value as input parameter"""
         list_of_elements = self.root.findall(".//" + setting)
         return list_of_elements
 
     def get_current_settings(self):
-        """This method gets current settings. It returns a list of elements"""
+        """This method gets current settings.
+        It returns a dictionary with current default settings"""
         current_settings = {}
         elements = self.root.findall('.//*[@default="True"]')
         for element in elements:
@@ -74,6 +76,6 @@ class Settings:
 
     def read_settings_from_file(self):
         """This method update the 'tree' and 'root' data parsed
-from XML config file"""
+        from XML config file"""
         self.tree = ET.parse(self.xml_file_path)
         self.root = self.tree.getroot()

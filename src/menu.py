@@ -36,6 +36,7 @@ class Menu:
         self.status = ""
 
     def run_application(self):
+        """Run """
         while self.status != self.exit_game_option:
             if self.status == self.go_main_menu_option or self.status == "":
                 self.display_main_menu()
@@ -44,18 +45,21 @@ class Menu:
             self.__run_method_according_option()
 
     def get_option_value_from_user(self):
+        """Get and update the value for user_option from user input"""
         try:
             self.user_option = str(raw_input("Please enter an option:"))
         except:
             self.user_option = "m"
 
     def validate_user_option(self):
+        """Validate input from user and return None if it is a non valid key
+        """
         good_input_values = "^(" + self.exit_game_option + "|" + self.go_main_menu_option \
                             + "|\d){1}$"
         if re.match(good_input_values, self.user_option):
             self.user_option = self.status + self.user_option
             last_character = self.user_option[-1]
-            if self.__is_a_char_option(last_character):
+            if self.__is_a_char_option(last_character) is True:
                 self.user_option = last_character
             if not self.menu_options.has_key(self.user_option):
                 self.user_option = None
@@ -63,6 +67,11 @@ class Menu:
             self.user_option = "m"
 
     def __is_a_char_option(self, last_character):
+        """Return True if the character belongs to list_of_char_options
+
+        Keyword arguments:
+        last_character -- a character value i.e.: x
+        """
         for char_options in self.list_of_char_options:
             if self.menu_options.has_key(last_character) and char_options == last_character:
                 return True
@@ -85,9 +94,8 @@ class Menu:
             self.status = self.go_main_menu_option
 
     def display_main_menu(self):
-        self.status = ""
-
         """Display main menu for sudoku game"""
+        self.status = ""
         print ("\n\n" +
                "SUDOKU Menu\n" +
                "------------------------\n" +
@@ -184,12 +192,17 @@ class Menu:
         print "x. Exit"
         self.get_option_value_from_user()
 
-        if self.is_a_valid_user_option_from_dinamic_list(good_input_values):
+        if self.is_a_valid_option_from_settings(good_input_values):
             self.sudoku_settings.set_config(setting, list_of_settings[int(self.user_option) - 1])
             self.sudoku_settings.write_settings()
         self.status = "m"
 
-    def is_a_valid_user_option_from_dinamic_list(self, good_input_values):
+    def is_a_valid_option_from_settings(self, good_input_values):
+        """Validate a user input value against values that have read from settings
+        Keyword arguments:
+        good_input_values -- list of different values have read from settings.
+        """
+        print good_input_values
         patron_input_values = "^(" + self.exit_game_option + "|" + self.go_main_menu_option + \
                               good_input_values + "){1}$"
         print patron_input_values

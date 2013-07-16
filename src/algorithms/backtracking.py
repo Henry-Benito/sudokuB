@@ -16,8 +16,10 @@ class Backtracking(Algorithm):
         Returns the board with a list of empty squares.
 
         Keyword arguments:
-        data -- string with values for initial status of a sudoku
+        data -- string with values for initial status of a sudoku i.e.:
+                400000805030000000000700000020000060000080400000010000
         """
+
         data_in_lines = []
         line = ""
         for dig in range(len(data)):
@@ -36,10 +38,17 @@ class Backtracking(Algorithm):
         at position (row,col).
 
         Keyword arguments:
-        board -- list of values for sudoku
-        position -- tuple of row and column
+        board -- list of values for sudoku i.e. [[4, 9, 0, 3, 0, 0, 8, 0, 5],
+                                                 [0, 3, 0, 0, 0, 0, 0, 0, 0],
+                                                 [6, 1, 0, 7, 0, 0, 0, 0, 0],
+                                                 [0, 2, 0, 0, 3, 0, 0, 6, 0],
+                                                 [0, 5, 0, 9, 8, 0, 4, 0, 0],
+                                                 [0, 4, 0, 5, 1, 0, 0, 0, 0],
+                                                 [2, 8, 9, 6, 4, 3, 5, 7, 1],
+                                                 [5, 6, 3, 2, 7, 1, 9, 8, 4],
+                                                 [1, 7, 4, 8, 9, 5, 0, 0, 0]]
+        position -- tuple of row and column i.e. (7, 8)
         """
-
         row, col = position
         adjacent = tuple(board[row][y] for y in range(9)) + \
                    tuple(board[x][col] for x in range(9)) + \
@@ -55,7 +64,7 @@ class Backtracking(Algorithm):
         Returns a number after calculate least constraining value heuristic.
         Keyword arguments:
         board -- list of values for sudoku
-        cell -- tuple of row and column
+        cell -- tuple of row and column i.e. (7, 8)
         value -- integer to validate in a cell into board
         """
 
@@ -75,9 +84,8 @@ class Backtracking(Algorithm):
 
         Keyword arguments:
         board -- list of values for sudoku
-        empty_cells -- list of squares in the board with empty values
+        empty_cells -- list of squares in the board with empty values i.e. [(3, 8), (3, 7), (8, 7)]
         """
-
         empty_cells.sort(key=lambda cell: len(list(self.possible_values(board, cell))))
 
         if len(empty_cells) == 0:
@@ -92,7 +100,7 @@ class Backtracking(Algorithm):
             new_board = deepcopy(board)
             new_board[row][col] = value
             new_board = self.resolve(new_board, copy(empty_cells))
-            if new_board:
+            if isinstance(new_board, list):
                 return new_board
 
         return False
@@ -100,9 +108,10 @@ class Backtracking(Algorithm):
     def solve(self, grid):
         """
         Returns a dictionary with solved sudoku values.
-        
+
         Keyword arguments:
-        grid -- string with values for initial status of a sudoku
+        grid -- string with values for initial status of a sudoku i.e.:
+                000006000059000008200008000045000000003000000006003054
         """
         board, empty_squares_to_fill = self.parse_board(grid)
         board = self.resolve(board, empty_squares_to_fill)
@@ -111,7 +120,7 @@ class Backtracking(Algorithm):
     def board_to_dict(self, board):
         """
         Returns a dictionary from a list of values.
-        
+
         Keyword arguments:
         board -- list of values for sudoku
         """
