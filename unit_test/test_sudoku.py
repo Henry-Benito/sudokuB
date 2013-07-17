@@ -7,9 +7,9 @@ from sudoku import Sudoku
 class Test_Sudoku(unittest.TestCase):
 
     def setUp(self):
-       
+       pass
 
-    def test_verify_solution_for_easy_grid(self):
+    def test_sudoku_should_resolve_a_sudoku_(self):
         expected_result_easy = '48392165796734582125187649354813297672956413' \
                                '8136798245372689514814253769695417382'
         dict_result = self.back.solve(self.easy)

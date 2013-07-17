@@ -1,5 +1,6 @@
-import os
 import unittest
+import sys
+sys.path.append("..\src")
 from menu import Menu
 
 class Test_menu(unittest.TestCase):
@@ -61,8 +62,20 @@ class Test_menu(unittest.TestCase):
 
         self.assertEqual(expected_string, m.menu_string)
 
+    def test_inbound_sudoku_has_good_format_should_return_true_for_valid_sudoku_format(self):
+        m = Menu()
+        sudoku_input = "223...456023...456026...456023...456023...456023...456023...456023...456023...456"
+        result = m.inbound_sudoku_has_good_format(sudoku_input)
+        self.assertTrue(result)
 
-
+    def test_inbound_sudoku_has_good_format_should_return_true_for_invalid_sudoku_format(self):
+        m = Menu()
+        sudoku_input = "223...456023sa...456026...456023...456023...456023...456023...456023...456023...456"
+        result = m.inbound_sudoku_has_good_format(sudoku_input)
+        self.assertFalse(result)
+        sudoku_input = "+/223...456023...456026...456023...456023...456023...456023...456023...456023...456"
+        result = m.inbound_sudoku_has_good_format(sudoku_input)
+        self.assertFalse(result)
 
 if __name__ == '__main__':
     unittest.main()

@@ -273,6 +273,22 @@ class Menu:
     def go_to_main_menu(self):
         self.status = self.go_main_menu_option
 
+    def get_sudoku_from_console(self):
+        sudoku_from_console = ""
+        for row in range(9):
+            try:
+                console_row = str(raw_input("Enter the 9 digits for the %s row of the sudoku:" % str(row)))
+                sudoku_from_console += console_row
+            except:
+                sudoku_from_console = None
+        return sudoku_from_console
+
+    def inbound_sudoku_has_good_format(self, inbound_sudoku):
+        if re.match("^(\.|[0-9])+$", inbound_sudoku) and len(inbound_sudoku) == 81:
+            return True
+        else:
+            return False
+
 if __name__ == '__main__':
     m = Menu()
     m.run_application()
