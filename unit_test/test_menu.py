@@ -64,16 +64,19 @@ class Test_menu(unittest.TestCase):
 
     def test_inbound_sudoku_has_good_format_should_return_true_for_valid_sudoku_format(self):
         m = Menu()
-        sudoku_input = "223...456023...456026...456023...456023...456023...456023...456023...456023...456"
+        sudoku_input = "223...456023...456026...456023...45602" + \
+                       "3...456023...456023...456023...456023...456"
         result = m.inbound_sudoku_has_good_format(sudoku_input)
         self.assertTrue(result)
 
     def test_inbound_sudoku_has_good_format_should_return_true_for_invalid_sudoku_format(self):
         m = Menu()
-        sudoku_input = "223...456023sa...456026...456023...456023...456023...456023...456023...456023...456"
+        sudoku_input = "223...456023sa...456026...456023...456" + \
+                       "023...456023...456023...456023...456023...456"
         result = m.inbound_sudoku_has_good_format(sudoku_input)
         self.assertFalse(result)
-        sudoku_input = "+/223...456023...456026...456023...456023...456023...456023...456023...456023...456"
+        sudoku_input = "+/223...456023...456026...456023...456" + \
+                       "023...456023...456023...456023...456023...456"
         result = m.inbound_sudoku_has_good_format(sudoku_input)
         self.assertFalse(result)
 
