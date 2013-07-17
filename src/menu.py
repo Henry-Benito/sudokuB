@@ -36,7 +36,10 @@ class Menu:
         self.status = ""
 
     def run_application(self):
-        """Run """
+        """
+        Initiates the application launching or displaying on console the main menu
+        the main menu.
+        """
         while self.status != self.exit_game_option:
             if self.status == self.go_main_menu_option or self.status == "":
                 self.display_main_menu()
@@ -192,7 +195,7 @@ class Menu:
         print "x. Exit"
         self.get_option_value_from_user()
 
-        if self.is_a_valid_option_from_settings(good_input_values):
+        if self.is_a_valid_option_from_settings(good_input_values) is True:
             self.sudoku_settings.set_config(setting, list_of_settings[int(self.user_option) - 1])
             self.sudoku_settings.write_settings()
         self.status = "m"
