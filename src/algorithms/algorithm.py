@@ -46,3 +46,18 @@ class Algorithm:
         for key in sorted(dictionary.iterkeys()):
             string_result = string_result + str(dictionary[key])
         return string_result
+
+    def parse_sudoku_to_string(self, values):
+        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file."""
+        self.values = values
+        width = 1 + max(len(self.values[squares]) for squares in self.squares)
+        line = '+'.join(['-' * (width * 3)] * 3)
+        pr_line = ""
+        for row in self.rows:
+            pr_line += ''.join(self.values[row+col].center(width) + ('|' if col in '36' else '')
+                               for col in self.cols)
+            pr_line += '\n'
+            if row in 'CF':
+                pr_line += (line + '\n')
+        return pr_line
+

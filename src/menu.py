@@ -31,6 +31,7 @@ class Menu:
                              "3.4.1": [self.__display_modify_default_setting, self.settings[3]],
                              "3.4.2": [self.__display_select_setting_name_to_modify_attributes,
                                        self.settings[3]]}
+                             #"4": [self.generate_sudoku()]}
 
         self.sudoku_settings = Settings()
         self.status = ""
@@ -80,7 +81,7 @@ class Menu:
                 return True
         return False
 
-    def __run_method_according_option(self):
+    def run_method_according_option(self):
         """Execute the method according to user_option value
 
         Keyword arguments:
@@ -282,32 +283,6 @@ class Menu:
         """
         self.status = self.go_main_menu_option
 
-    def get_sudoku_from_console(self):
-        """
-        Return a string from user that contains a sudoku to solve.
-        """
-        sudoku_from_console = ""
-        for row in range(9):
-            try:
-                console_row = str(raw_input("Enter the 9 digits for %s row of sudoku:" % str(row)))
-                sudoku_from_console += console_row
-            except:
-                sudoku_from_console = None
-        return sudoku_from_console
-
-    def inbound_sudoku_has_good_format(self, inbound_sudoku):
-        """
-        Return True when the string only contains numbers from 0 to 9 or '.' character and
-        its length is 81.
-
-        Keyword arguments:
-        inbound_sudoku -- string with values for sudoku game from user i.e.:
-        400000805030000000000700000020000060000080400000010000
-        """
-        if re.match("^(\.|[0-9])+$", inbound_sudoku) and len(inbound_sudoku) == 81:
-            return True
-        else:
-            return False
 
 if __name__ == '__main__':
     m = Menu()

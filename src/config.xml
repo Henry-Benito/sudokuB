@@ -1,27 +1,26 @@
 <SUDOKU>
 
     <Algorithms>
-        <Algorithm default="False" name="Peter Norvig" />
-        <Algorithm default="True" name="Backtracking" />
+        <Algorithm default="True" name="Peter Norvig" />
+        <Algorithm default="False" name="Backtracking" />
         <Algorithm default="False" name="Brute Force" />
     </Algorithms>
     
     <Difficult>
-        <Level default="False" max="35" min="20" name="Easy" />
-        <Level default="False" max="1" min="20" name="Medium" />
-        <Level default="True" max="50" min="20" name="Hard" />
+        <Level default="False" max="39" min="30" name="Easy" />
+        <Level default="False" max="49" min="40" name="Medium" />
+        <Level default="True" max="65" min="50" name="Hard" />
     </Difficult>
     
     <Outputs>
-        <Output default="True" name="Console" />
-        <Output default="False" name="Text File" path="../sd" />
-        <Output default="False" name="CSV file" path="../Game Results" />
+        <Output default="False" name="Console" />
+        <Output default="True" name="TXT" path="../game_results" />        
     </Outputs>
     
     <Inputs>
         <Input default="False" name="Console" />
-        <Input default="False" name="Text File" path="../test" />
-        <Input default="True" name="CSV File" path="123222" />
+        <Input default="False" name="TXT" path="../custom_games" />
+        <Input default="True" name="CSV" path="../custom_games" />
     </Inputs>
     
 </SUDOKU>

@@ -16,14 +16,18 @@ class Settings:
     def get_current_settings(self):
         """This method gets current settings.
         It returns a dictionary with current default settings"""
+        self.read_settings_from_file()
         current_settings = {}
         elements = self.root.findall('.//*[@default="True"]')
         for element in elements:
             if str(element.tag) == "Level":
                 current_settings["max"] = element.attrib["max"]
                 current_settings["min"] = element.attrib["min"]
-            else:
-                current_settings[str(element.tag)] = element.attrib["name"]
+            elif str(element.tag) == "Input":
+                current_settings["input_path"] = element.attrib["path"]
+            elif str(element.tag) == "Output":
+                current_settings["output_path"] = element.attrib["path"]
+            current_settings[str(element.tag)] = element.attrib["name"]
         return current_settings
 
     def get_name_for_current_setting(self, setting):
