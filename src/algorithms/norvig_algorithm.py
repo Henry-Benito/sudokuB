@@ -107,7 +107,11 @@ class Norvig(Algorithm):
         """Solve a suoku puzzle that already have some possible values in each of the blank
         spaces.
         """
-        return self.search(self.parse_grid(grid))
+        result = self.create_empty_sudoku()
+        if self.inbound_sudoku_has_good_format(grid) is True:
+            result = self.search(self.parse_grid(grid))
+        return result
+
 
     def search(self, values):
         """Using depth-first search and propagation, try all possible values."""

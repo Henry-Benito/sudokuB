@@ -13,12 +13,11 @@
     </Difficult>
     
     <Outputs>
-        <Output default="False" name="Console" />
         <Output default="True" name="TXT" path="../game_results" />        
     </Outputs>
     
     <Inputs>
-        <Input default="False" name="Console" />
+        <Input default="False" name="Console" path="" />
         <Input default="False" name="TXT" path="../custom_games" />
         <Input default="True" name="CSV" path="../custom_games" />
     </Inputs>

@@ -198,9 +198,3 @@ class SudokuGenerator(object):
             sudoku_generated = self.create_board_to_txt()
         print sudoku_generated
         return sudoku_generated
-
-if __name__ == "__main__":
-    save_parsed_sudoku_to_file = Results()
-    sudoku_puzzle = SudokuGenerator(10, 20)
-    res = sudoku_puzzle.generate_sudoku()
-    save_parsed_sudoku_to_file.save_to_file(res, "../custom_games/sudoku_generated")

@@ -1,4 +1,4 @@
-
+import re
 
 class Algorithm:
     def __init__(self):
@@ -61,3 +61,24 @@ class Algorithm:
                 pr_line += (line + '\n')
         return pr_line
 
+    def inbound_sudoku_has_good_format(self, inbound_sudoku):
+        """
+        Return True when the string only contains numbers from 0 to 9 or '.' character and
+        its length is 81.
+
+        Keyword arguments:
+        inbound_sudoku -- string with values for sudoku game from user i.e.:
+        400000805030000000000700000020000060000080400000010000
+        """
+        if re.match("^(\.|[0-9])+$", inbound_sudoku) and len(inbound_sudoku) == 81:
+            return True
+        else:
+            return False
+    def create_empty_sudoku(self):
+        """
+        Return a empty sudoku
+        """
+        res = {}
+        for square in self.squares:
+            res[square] = '0'
+        return res

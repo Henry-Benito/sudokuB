@@ -123,9 +123,12 @@ class Backtracking(Algorithm):
         grid -- string with values for initial status of a sudoku i.e.:
                 000006000059000008200008000045000000003000000006003054
         """
-        board, empty_squares_to_fill = self.parse_board(grid)
-        board = self.resolve(board, empty_squares_to_fill)
-        return self.board_to_dict(board)
+        result = self.create_empty_sudoku()
+        if self.inbound_sudoku_has_good_format(grid) is True:
+            board, empty_squares_to_fill = self.parse_board(grid)
+            board = self.resolve(board, empty_squares_to_fill)
+            result = self.board_to_dict(board)
+        return result
 
     def board_to_dict(self, board):
         """
