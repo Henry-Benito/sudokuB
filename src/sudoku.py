@@ -1,6 +1,6 @@
 from menu import Menu
 from settings import Settings
-from algorithms.norvig_algorithm import Norvig
+from algorithms.norvig_algorithm import NorvigAlgorithm
 from algorithms.backtracking import Backtracking
 from read_from_file import ReadFromFile
 from results import Results
@@ -70,7 +70,7 @@ class Sudoku:
         """
         Create an instance according the value for default algorithm
         """
-        algorithm_list = {"Peter Norvig" : Norvig,"Backtracking" : Backtracking}
+        algorithm_list = {"Peter Norvig" : NorvigAlgorithm,"Backtracking" : Backtracking}
         algorithm_instance = algorithm_list[self.current_settings["Algorithm"]]()
         return algorithm_instance
 

@@ -93,16 +93,6 @@ class SudokuGenerator(object):
 
     def fill_board(self):
         """Fills a sudoku board with values in each square [4, 2, 3, etc]
-        Keywords:
-        possible_values -- a matrix with values that a square can contain
-        try_value -- is a delimiter to assign possible values to a row until 200 times, if in 200
-        times the value was wrong, then we clean the board and try again.
-        row -- is the row of a board
-        stop -- a flag that help us to stop or continue trying values for a square
-        wrong -- is a flag that help us to verify if there were wrong values for a square, if wrong
-        is the same number of possible values, then we restart the board
-        number -- is not present in any of the squares, then we assign that number to a square and
-        removes that number from possible_values
         """
         random.seed()
         col = 0
@@ -111,7 +101,7 @@ class SudokuGenerator(object):
             random.shuffle(self.possible_values)
             row = 0
             try_value = 0
-            res = self.try_values_in_row(try_value, row, col, maximum_tries)
+            res = possible_try_values = self.try_values_in_row(try_value, row, col, maximum_tries)
             col += 1
 
             if try_value == maximum_tries:
@@ -150,8 +140,7 @@ class SudokuGenerator(object):
         """Verifies if a number is present in a row of the puzzle
         Keywords:
         row -- is the row position of the puzzle
-        col -- is the col position of the puzzle
-        number -- is a randomic number between 1 and 9
+        col -- is the column position of the puzzle
         """
         number = random.randint(1, 9)
         while (self.is_number_in_column(self.board, col, number)
@@ -165,6 +154,10 @@ class SudokuGenerator(object):
     def element_in_range(self, wrong, row, col):
         """Verifies if a number is present in a square of the puzzle and return a number that
         represents the wrong tries did for that element.
+        Keywords:
+        wrong -- is a integer value that represents the times that an element is found in a grid
+        row -- is the row position of the puzzle
+        col -- is the column position of the puzzle
         """
         for elem in range(0, len(self.possible_values)):
                     if (self.is_number_in_column(self.board, col, self.possible_values[elem])
@@ -189,6 +182,7 @@ class SudokuGenerator(object):
             if self.puzzle[row][col] != ".":
                 self.puzzle[row][col] = "."
                 i += 1
+
     def generate_sudoku(self):
         sudoku_generated = "None"
         while "None" in sudoku_generated:

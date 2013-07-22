@@ -48,7 +48,10 @@ class Algorithm:
         return string_result
 
     def parse_sudoku_to_string(self, values):
-        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file."""
+        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file.
+        Keywords:
+        values -- Is a list of possible values for a grid e.g. [2, 4, 5, 8, 1, etc]
+        """
         self.values = values
         width = 1 + max(len(self.values[squares]) for squares in self.squares)
         line = '+'.join(['-' * (width * 3)] * 3)
