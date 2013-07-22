@@ -1,4 +1,6 @@
 import re
+import time
+
 
 class Algorithm:
     def __init__(self):
@@ -13,6 +15,7 @@ class Algorithm:
         grid -- string with values for initial status of a sudoku
         """
         raise Exception("This method solve should be implemented")
+
 
     def display(self, values):
         """Display these values as a 2-D grid.
@@ -48,7 +51,10 @@ class Algorithm:
         return string_result
 
     def parse_sudoku_to_string(self, values):
-        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file."""
+        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file.
+        Keywords:
+        values -- Is a list of possible values for a grid e.g. [2, 4, 5, 8, 1, etc]
+        """
         self.values = values
         width = 1 + max(len(self.values[squares]) for squares in self.squares)
         line = '+'.join(['-' * (width * 3)] * 3)
@@ -82,3 +88,12 @@ class Algorithm:
         for square in self.squares:
             res[square] = '0'
         return res
+
+def time_decorator(func):
+        def wrapper(*arg):
+            initial_time = time.clock()
+            res = func(*arg)
+            time_result = time.clock() - initial_time
+            print "Sudoku solved in: " + str(time_result) + " seconds"
+            return res
+        return wrapper

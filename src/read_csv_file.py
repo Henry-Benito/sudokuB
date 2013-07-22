@@ -1,52 +1,47 @@
 class ReadCsvFile:
-    """
-    This class reads a CSV file containing 1 or several sudoku puzzles.
-    Keywords:
-    route -- The path with the txt file to read.
-    file_with_puzzle -- Saves the sudoku puzzle of the csv file.
-    parsed_sudoku_puzzle -- Saves the sudoku puzzle in one string of 81 chars.
-    """
-
     def __init__(self, route_file):
+        """This class reads a CSV file containing 1 or several sudoku puzzles.
+        Keywords:
+        route_file -- the path were the csv file is found as string e.g. '../custom_games'
+        """
+        self.route_file = route_file
+        self.open_sudoku_file(self.route_file)
+
+    def open_sudoku_file(self, route_file):
+        """Open a file and save the contain in a variable and returns a variable that contains
+        all the sudoku puzzles to be solved in a list
+        Keywords:
+        route_file -- the path were the file is found as string e.g. '../custom_games'
+        """
         try:
-            self.route_file = route_file
             self.open_file = open(self.route_file, 'r')
             self.file_with_puzzle = self.open_file.read().strip().split('\n')
             self.open_file.close()
         except:
-            print "Error reading " + self.route_file + " file"
-
+            raise "Error when opening the file: " + self.route_file
 
     def read_file(self):
         """This function verify if a csv file contains one or more than one sudoku puzzles
         and calls the respective function about that.
         """
-        if len(self.file_with_puzzle) > 1:
+        if len(self.file_with_puzzle) > 0:
             res = self.read_several_sudoku_puzzles()
-        else:
-            res = self.read_one_sudoku_puzzle()
         return res
 
-    def read_one_sudoku_puzzle(self):
-        """ After read the csv file a first time in the previous function we need to restart the
-        reading of the file.
+    def read_one_sudoku_puzzle(self, string_puzzle):
+        """ Read one sudoku puzzle from any csv file
         Keywords:
-        file_with_puzzle -- saves a sudoku puzzle in 1 string of 81 chars and also if the puzzle
-        contains dots (.) instead of zeros (0) for the empty spots, then we change them to zeros (0)
+        string_puzzle -- Is a sudoku puzzle in 1 string of 81 chars if the puzzle contains dots (.)
+        are replaced by zeros (0) for empty spots.
         """
-        string_puzzle = ''.join(self.file_with_puzzle)
         string_puzzle = string_puzzle.replace(',', '')
         string_puzzle = string_puzzle.replace('.', '0')
         return string_puzzle
 
     def read_several_sudoku_puzzles(self):
-        """ After read the csv file a first time in the previous function we need to restart the
-        reading of the file.
-        Keywords:
-        file_with_puzzle -- saves a sudoku puzzle in 1 string of 81 chars and also if the puzzle
-        contains dots (.) instead of zeros (0) for the empty spots, then we change them to zeros (0)
+        """ Reads several sudoku puzzles from a csv file and returns a variable that contains a list
+        with several sudoku puzzles like string in each position of that list.
         """
         for pos_list in range(len(self.file_with_puzzle)):
-            self.file_with_puzzle[pos_list] = self.file_with_puzzle[pos_list].replace(',', '')
-            self.file_with_puzzle[pos_list] = self.file_with_puzzle[pos_list].replace('.', '0')
+            self.file_with_puzzle[pos_list] = self.read_one_sudoku_puzzle(self.file_with_puzzle[pos_list])
         return self.file_with_puzzle

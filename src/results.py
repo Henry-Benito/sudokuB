@@ -3,7 +3,11 @@ class Results:
         pass
 
     def save_to_file(self, info, saved_route = "../game_results/default"):
-        """This function save a solved sudoku puzzle in a TXT file"""
+        """This function save a solved sudoku puzzle in a TXT file
+        Keywords:
+        info -- Is a string value that contains a suoku resolved or to resolve e.g. (81.74.... etc)
+        saved_route -- is the path were the txt file will be saved
+        """
         self.saved_route = saved_route
         self.info = info
         try:
@@ -12,4 +16,4 @@ class Results:
             f.close()
             print "A sudoku was written in:" + str(saved_route)
         except:
-            print "Error writing sudoku in:" + str(saved_route)
+            raise ("Error writing sudoku in:" + str(saved_route))

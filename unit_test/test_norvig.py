@@ -1,25 +1,28 @@
 import unittest
 import sys
-sys.path.append("..\src\\algorithms")
-from norvig_algorithm import Norvig
+import os
+sys.path.append("../src/")
+from algorithms.norvig_algorithm import NorvigAlgorithm
 
 class TestNorvig(unittest.TestCase):
     def setUp(self):
-        self.grid1 = '003020600900305001001806400008102900700000008006708200' \
+        self.grid_with_zeros = '003020600900305001001806400008102900700000008006708200' \
                      '002609500800203009005010300'
-        self.grid2 = '4.....8.5.3..........7......2.....6.....8.4......1....' \
+        self.grid_with_dots = '4.....8.5.3..........7......2.....6.....8.4......1....' \
                      '...6.3.7.5..2.....1.4......'
-        self.hard1 = '.....6....59.....82....8....45........3........6..3.54' \
+        self.hard_puzzle = '.....6....59.....82....8....45........3........6..3.54' \
                      '...325..6..................'
-        self.norvig = Norvig()
+        self.bad_grid = '113223656900305001001806400008102900700000008006708200' \
+                     '002609500800203009005010300'
+        self.norvig = NorvigAlgorithm()
         self.filename1 = 'hardest'
         self.filename2 = 'top95'
-        self.path = "..\\custom_games"
+        self.path = "../custom_games"
 
     def test_verify_solution_for_easy_grid(self):
         expected_result_grid1 = '48392165796734582125187649354813297672956413' \
                                 '8136798245372689514814253769695417382'
-        unsort_list = self.norvig.parse_grid(self.grid1)
+        unsort_list = self.norvig.parse_grid(self.grid_with_zeros)
         nums = ''
         for key in sorted(unsort_list.iterkeys()):
             nums = nums + str(unsort_list[key])
@@ -28,17 +31,17 @@ class TestNorvig(unittest.TestCase):
     def test_verify_solution_for_normal_grid(self):
         expected_result_grid2 = '41736982563215894795872431682543716979158643' \
                                 '2346912758289643571573291684164875293'
-        unsort_list = self.norvig.solve(self.grid2)
+        unsort_list = self.norvig.solve(self.grid_with_dots)
         nums = ''
         for key in sorted(unsort_list.iterkeys()):
             nums = nums + str(unsort_list[key])
         self.assertEqual(expected_result_grid2, nums)
 
-    '''def test_verify_solution_for_hard_grid(self):
+    def test_verify_solution_for_hard_grid(self):
         import time
         expected_result_hard1 = '43879621565913247827145869384521936771356482' \
                                 '9926873154194325786362987541587641932'
-        unsort_list = self.norvig.solve(self.hard1)
+        unsort_list = self.norvig.solve(self.hard_puzzle)
         nums = ''
         for key in sorted(unsort_list.iterkeys()):
             nums = nums + str(unsort_list[key])
@@ -59,29 +62,27 @@ class TestNorvig(unittest.TestCase):
         self.assertEqual(expected_peers, self.norvig.cross(self.rows, self.cols))
 
     def test_verify_that_parse_grid_generate_a_grid_of_posible_values(self):
-        expected_grid = {'I6': '5789', 'H9': '4689', 'I2': '6789', 'E8': '12359',
-                         'H3': '3', 'H7': '69', 'I7': '23569', 'I4': '589',
+        expected_grid = {'I6': '5789', 'H9': '134689', 'I2': '6789', 'E8': '12359',
+                         'H3': '36789', 'H7': '1369', 'I7': '23569', 'I4': '589',
                          'H5': '479', 'F9': '23789', 'G7': '1259', 'G6': '3',
                          'G5': '459', 'E1': '3679', 'G3': '289', 'G2': '89',
                          'G1': '289', 'I1': '1', 'C8': '12349', 'I3': '4',
                          'E5': '8', 'I5': '579', 'C9': '123469', 'G9': '12489',
                          'G8': '7', 'A1': '4', 'A3': '12679', 'A2': '1679',
-                         'A5': '2369', 'A4': '139', 'A7': '8', 'A6': '269',
-                         'C3': '125689', 'C2': '15689', 'C1': '2689',
-                         'E6': '25679', 'C7': '12369', 'C6': '245689',
-                         'C5': '234569', 'C4': '7', 'I9': '23689', 'D8': '6',
-                         'I8': '23589', 'E4': '359', 'D9': '13789', 'H8': '489',
-                         'F6': '25679', 'A9': '5', 'G4': '6', 'A8': '1239',
-                         'E7': '4', 'E3': '15679', 'F1': '36789', 'F2': '4',
-                         'F3': '56789', 'F4': '359', 'F5': '1', 'E2': '15679',
-                         'F7': '23579', 'F8': '23589', 'D2': '2', 'H1': '5',
-                         'H6': '1', 'H2': '6789', 'H4': '2', 'D3': '15789',
-                         'B4': '14589', 'B5': '24569', 'B6': '245689',
+                         'A5': '2369', 'A4': '139', 'A7': '8', 'A6': '1269',
+                         'C3': '125689', 'C2': '15689', 'C1': '2689', 'E6': '25679',
+                         'C7': '12369', 'C6': '1245689', 'C5': '234569', 'C4': '7',
+                         'I9': '23689', 'D8': '6', 'I8': '23589', 'E4': '359',
+                         'D9': '13789', 'H8': '13489', 'F6': '245679', 'A9': '5',
+                         'G4': '6', 'A8': '1239', 'E7': '4', 'E3': '135679',
+                         'F1': '36789', 'F2': '456789', 'F3': '356789', 'F4': '3459',
+                         'F5': '1', 'E2': '15679', 'F7': '23579', 'F8': '23589', 'D2': '2',
+                         'H1': '5', 'H6': '14789', 'H2': '6789', 'H4': '2',
+                         'D3': '135789', 'B4': '14589', 'B5': '24569', 'B6': '1245689',
                          'B7': '12679', 'E9': '12379', 'B1': '26789', 'B2': '3',
-                         'B3': '1256789', 'D6': '4579', 'D7': '13579',
-                         'D4': '3459', 'D5': '34579', 'B8': '1249',
-                         'B9': '124679', 'D1': '3789'}
-        self.assertEqual(expected_grid, self.norvig.parse_grid(self.grid2))
+                         'B3': '1256789', 'D6': '4579', 'D7': '13579', 'D4': '3459',
+                         'D5': '34579', 'B8': '1249', 'B9': '124679', 'D1': '3789'}
+        self.assertEqual(expected_grid, self.norvig.parse_grid(self.grid_with_dots))
 
     def test_verify_that_grid_values_generate_a_grid_with_zeros(self):
         expected_zeros_grid = {'I6': '0', 'H9': '9', 'I2': '0', 'E8': '0',
@@ -105,18 +106,25 @@ class TestNorvig(unittest.TestCase):
                                'B2': '0', 'B3': '0', 'D6': '2', 'D7': '9',
                                'D4': '1', 'D5': '0', 'B8': '0', 'B9': '1',
                                'D1': '0'}
-        self.assertEqual(expected_zeros_grid, self.norvig.grid_values(self.grid1))'''
+        self.assertEqual(expected_zeros_grid, self.norvig.grid_values(self.grid_with_zeros))
 
-    def test_sudoku_games_from_file(self):
-        self.norvig.read_from_file(self.path)
+    def test_verify_parse_sudoku_to_string_functionality(self):
+        expected_parsed_value = '4 8 3 |9 2 1 |6 5 7 \n' \
+                                '9 6 7 |3 4 5 |8 2 1 \n' \
+                                '2 5 1 |8 7 6 |4 9 3 \n' \
+                                '------+------+------\n' \
+                                '5 4 8 |1 3 2 |9 7 6 \n' \
+                                '7 2 9 |5 6 4 |1 3 8 \n' \
+                                '1 3 6 |7 9 8 |2 4 5 \n' \
+                                '------+------+------\n' \
+                                '3 7 2 |6 8 9 |5 1 4 \n' \
+                                '8 1 4 |2 5 3 |7 6 9 \n' \
+                                '6 9 5 |4 1 7 |3 8 2 \n\n\n\n'
+        self.assertEqual(expected_parsed_value, self.norvig.parse_sudoku_to_string
+                        (self.norvig.solve(self.grid_with_zeros)))
 
-    def test_verify_directory_of_sudoku_games_exist(self):
-        import os.path
-        if os.path.isdir(self.path):
-          res = True
-        else:
-          res = False
-        self.assertTrue(res)
+    def test_bad_grid_for_parse_grid(self):
+        self.assertFalse(self.norvig.parse_grid(self.bad_grid))
 
 if __name__ == '__main__':
     unittest.main()
