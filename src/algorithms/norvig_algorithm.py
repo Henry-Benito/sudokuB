@@ -8,17 +8,15 @@ un is a unit, e.g. ['A1','B1','C1','D1','E1','F1','G1','H1','I1']
 grid is a grid,e.g. 81 non-blank chars, e.g. starting with '.18...7...
 values is a dict of possible values, e.g. {'A1':'12349', 'A2':'8', ...}
 """
-import os
 import sys
-
 sys.path.append("../")
 from algorithm import Algorithm
-
+import time
 
 class Norvig(Algorithm):
     def __init__(self):
         Algorithm.__init__(self)
-        self.route = route
+        #self.route = route
         self.digits = '123456789'
         self.rows = 'ABCDEFGHI'
         self.cols = self.digits
@@ -31,6 +29,16 @@ class Norvig(Algorithm):
                           for square in self.squares)
         self.peers = dict((square, set(sum(self.units[square], []))-set([square]))
                           for square in self.squares)
+
+    def time_decorator(func):
+        def wrapper(*arg):
+            t = time.clock()
+            res = func(*arg)
+            time_result = time.clock()-t
+            #res = ('%02d:%02d.%d'%(time_result.minute,time_result.second,time_result.microsecond))[:-4]
+            print "Sudoku solved in: " + str(time_result) + " seconds"
+            return res
+        return wrapper
 
     def parse_grid(self, grid):
         """Convert grid to a dict of possible values,
@@ -93,25 +101,17 @@ class Norvig(Algorithm):
                     return False
         return values
 
-    def parse_sudoku_to_string(self, values):
-        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file."""
-        self.values = values
-        width = 1 + max(len(self.values[squares]) for squares in self.squares)
-        line = '+'.join(['-' * (width * 3)] * 3)
-        pr_line = ""
-        for row in self.rows:
-            pr_line += ''.join(self.values[row+col].center(width) + ('|' if col in '36' else '')
-                               for col in self.cols)
-            pr_line += '\n'
-            if row in 'CF':
-                pr_line += (line + '\n')
-        return pr_line+'\n\n\n'
 
+    @time_decorator
     def solve(self, grid):
         """Solve a suoku puzzle that already have some possible values in each of the blank
         spaces.
         """
-        return self.search(self.parse_grid(grid))
+        result = self.create_empty_sudoku()
+        if self.inbound_sudoku_has_good_format(grid) is True:
+            result = self.search(self.parse_grid(grid))
+        return result
+
 
     def search(self, values):
         """Using depth-first search and propagation, try all possible values."""

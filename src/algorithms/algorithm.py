@@ -1,4 +1,4 @@
-
+import re
 
 class Algorithm:
     def __init__(self):
@@ -46,3 +46,39 @@ class Algorithm:
         for key in sorted(dictionary.iterkeys()):
             string_result = string_result + str(dictionary[key])
         return string_result
+
+    def parse_sudoku_to_string(self, values):
+        """Saves a sudoku puzzle solved as a 2-D grid in order to save it into a TXT file."""
+        self.values = values
+        width = 1 + max(len(self.values[squares]) for squares in self.squares)
+        line = '+'.join(['-' * (width * 3)] * 3)
+        pr_line = ""
+        for row in self.rows:
+            pr_line += ''.join(self.values[row+col].center(width) + ('|' if col in '36' else '')
+                               for col in self.cols)
+            pr_line += '\n'
+            if row in 'CF':
+                pr_line += (line + '\n')
+        return pr_line
+
+    def inbound_sudoku_has_good_format(self, inbound_sudoku):
+        """
+        Return True when the string only contains numbers from 0 to 9 or '.' character and
+        its length is 81.
+
+        Keyword arguments:
+        inbound_sudoku -- string with values for sudoku game from user i.e.:
+        400000805030000000000700000020000060000080400000010000
+        """
+        if re.match("^(\.|[0-9])+$", inbound_sudoku) and len(inbound_sudoku) == 81:
+            return True
+        else:
+            return False
+    def create_empty_sudoku(self):
+        """
+        Return a empty sudoku
+        """
+        res = {}
+        for square in self.squares:
+            res[square] = '0'
+        return res

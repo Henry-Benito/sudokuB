@@ -17,84 +17,24 @@ class Menu:
                              "2": [self.display_settings],
                              "3": [self.display_modify_settings],
                              "3.1": [self.display_modify_setting_options, self.settings[0]],
-                             "3.1.1": [self.__display_modify_default_setting,
+                             "3.1.1": [self.display_modify_default_setting,
                                        self.settings[0]],
                              "3.2": [self.display_modify_setting_options, self.settings[1]],
-                             "3.2.1": [self.__display_modify_default_setting, self.settings[1]],
-                             "3.2.2": [self.__display_select_setting_name_to_modify_attributes,
+                             "3.2.1": [self.display_modify_default_setting, self.settings[1]],
+                             "3.2.2": [self.display_select_setting_name_to_modify_attributes,
                                        self.settings[1]],
                              "3.3": [self.display_modify_setting_options, self.settings[2]],
-                             "3.3.1": [self.__display_modify_default_setting, self.settings[2]],
-                             "3.3.2": [self.__display_select_setting_name_to_modify_attributes,
+                             "3.3.1": [self.display_modify_default_setting, self.settings[2]],
+                             "3.3.2": [self.display_select_setting_name_to_modify_attributes,
                                        self.settings[2]],
                              "3.4": [self.display_modify_setting_options, self.settings[3]],
-                             "3.4.1": [self.__display_modify_default_setting, self.settings[3]],
-                             "3.4.2": [self.__display_select_setting_name_to_modify_attributes,
+                             "3.4.1": [self.display_modify_default_setting, self.settings[3]],
+                             "3.4.2": [self.display_select_setting_name_to_modify_attributes,
                                        self.settings[3]]}
+                             #"4": [self.generate_sudoku()]}
 
         self.sudoku_settings = Settings()
         self.status = ""
-
-    def run_application(self):
-        """
-        Initiates the application launching or displaying on console the main menu
-        the main menu.
-        """
-        while self.status != self.exit_game_option:
-            if self.status == self.go_main_menu_option or self.status == "":
-                self.display_main_menu()
-            self.get_option_value_from_user()
-            self.validate_user_option()
-            self.__run_method_according_option()
-
-    def get_option_value_from_user(self):
-        """Get and update the value for user_option from user input"""
-        try:
-            self.user_option = str(raw_input("Please enter an option:"))
-        except:
-            self.user_option = "m"
-
-    def validate_user_option(self):
-        """Validate input from user and return None if it is a non valid key
-        """
-        good_input_values = "^(" + self.exit_game_option + "|" + self.go_main_menu_option \
-                            + "|\d){1}$"
-        if re.match(good_input_values, self.user_option):
-            self.user_option = self.status + self.user_option
-            last_character = self.user_option[-1]
-            if self.__is_a_char_option(last_character) is True:
-                self.user_option = last_character
-            if not self.menu_options.has_key(self.user_option):
-                self.user_option = None
-        else:
-            self.user_option = "m"
-
-    def __is_a_char_option(self, last_character):
-        """Return True if the character belongs to list_of_char_options
-
-        Keyword arguments:
-        last_character -- a character value i.e.: x
-        """
-        for char_options in self.list_of_char_options:
-            if self.menu_options.has_key(last_character) and char_options == last_character:
-                return True
-        return False
-
-    def __run_method_according_option(self):
-        """Execute the method according to user_option value
-
-        Keyword arguments:
-        user_option -- value of option according to menu
-        """
-        if self.user_option is not None:
-            list_execute = self.menu_options[self.user_option]
-            function_execute = list_execute[0]
-            if len(list_execute) > 1:
-                function_execute(list_execute[1])
-            else:
-                function_execute()
-        else:
-            self.status = self.go_main_menu_option
 
     def display_main_menu(self):
         """Display main menu for sudoku game"""
@@ -105,6 +45,7 @@ class Menu:
                "1. Play\n" +
                "2. Display settings\n" +
                "3. Modify settings\n" +
+               "4. Generate sudoku game\n" +
                "x. Exit\n")
 
     def start_game(self):
@@ -172,7 +113,7 @@ class Menu:
                            "x. Exit"
         print self.menu_string
 
-    def __display_modify_default_setting(self, setting_to_modify):
+    def display_modify_default_setting(self, setting_to_modify):
         """Display options for setting to be modifed as the method according to user_option value
 
         Keyword arguments:
@@ -218,7 +159,7 @@ class Menu:
         else:
             return False
 
-    def __display_select_setting_name_to_modify_attributes(self, setting_to_modify):
+    def display_select_setting_name_to_modify_attributes(self, setting_to_modify):
         """Display names of setting to modify his attributes
 
         Keyword arguments:
@@ -282,33 +223,3 @@ class Menu:
         """
         self.status = self.go_main_menu_option
 
-    def get_sudoku_from_console(self):
-        """
-        Return a string from user that contains a sudoku to solve.
-        """
-        sudoku_from_console = ""
-        for row in range(9):
-            try:
-                console_row = str(raw_input("Enter the 9 digits for %s row of sudoku:" % str(row)))
-                sudoku_from_console += console_row
-            except:
-                sudoku_from_console = None
-        return sudoku_from_console
-
-    def inbound_sudoku_has_good_format(self, inbound_sudoku):
-        """
-        Return True when the string only contains numbers from 0 to 9 or '.' character and
-        its length is 81.
-
-        Keyword arguments:
-        inbound_sudoku -- string with values for sudoku game from user i.e.:
-        400000805030000000000700000020000060000080400000010000
-        """
-        if re.match("^(\.|[0-9])+$", inbound_sudoku) and len(inbound_sudoku) == 81:
-            return True
-        else:
-            return False
-
-if __name__ == '__main__':
-    m = Menu()
-    m.run_application()

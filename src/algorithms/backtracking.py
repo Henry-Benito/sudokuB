@@ -1,6 +1,6 @@
 from copy import deepcopy, copy
 from algorithm import Algorithm
-
+import time
 
 class Backtracking(Algorithm):
     def __init__(self):
@@ -8,6 +8,16 @@ class Backtracking(Algorithm):
         self.rows = 'ABCDEFGHI'
         self.cols = '123456789'
         self.squares = self.cross(self.rows, self.cols)
+
+    def time_decorator(func):
+        def wrapper(*arg):
+            t = time.clock()
+            res = func(*arg)
+            time_result = time.clock()-t
+            #res = ('%02d:%02d.%d'%(time_result.minute,time_result.second,time_result.microsecond))[:-4]
+            print "Sudoku solved in: " + str(time_result) + " seconds"
+            return res
+        return wrapper
 
     def parse_board(self, data):
         """
@@ -104,7 +114,7 @@ class Backtracking(Algorithm):
                 return new_board
 
         return False
-
+    @time_decorator
     def solve(self, grid):
         """
         Returns a dictionary with solved sudoku values.
@@ -113,9 +123,12 @@ class Backtracking(Algorithm):
         grid -- string with values for initial status of a sudoku i.e.:
                 000006000059000008200008000045000000003000000006003054
         """
-        board, empty_squares_to_fill = self.parse_board(grid)
-        board = self.resolve(board, empty_squares_to_fill)
-        return self.board_to_dict(board)
+        result = self.create_empty_sudoku()
+        if self.inbound_sudoku_has_good_format(grid) is True:
+            board, empty_squares_to_fill = self.parse_board(grid)
+            board = self.resolve(board, empty_squares_to_fill)
+            result = self.board_to_dict(board)
+        return result
 
     def board_to_dict(self, board):
         """
@@ -131,3 +144,6 @@ class Backtracking(Algorithm):
                 dict_res[self.squares[index]] = str(dig)
                 index += 1
         return dict_res
+
+
+
