@@ -11,6 +11,7 @@ values is a dict of possible values, e.g. {'A1':'12349', 'A2':'8', ...}
 import sys
 sys.path.append("../")
 from algorithm import Algorithm
+from algorithm import time_decorator
 import time
 
 class NorvigAlgorithm(Algorithm):
@@ -29,14 +30,6 @@ class NorvigAlgorithm(Algorithm):
         self.peers = dict((square, set(sum(self.units[square],[]))-set([square]))
                           for square in self.squares)
 
-    def time_decorator(func):
-        def wrapper(*arg):
-            initial_time = time.clock()
-            res = func(*arg)
-            time_result = time.clock() - initial_time
-            print "Sudoku solved in: " + str(time_result) + " seconds"
-            return res
-        return wrapper
 
     def parse_grid(self, grid):
         """Convert grid to a dict of possible values, or return False if a contradiction is detected.

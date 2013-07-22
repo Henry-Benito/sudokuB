@@ -1,4 +1,6 @@
 import re
+import time
+
 
 class Algorithm:
     def __init__(self):
@@ -13,6 +15,7 @@ class Algorithm:
         grid -- string with values for initial status of a sudoku
         """
         raise Exception("This method solve should be implemented")
+
 
     def display(self, values):
         """Display these values as a 2-D grid.
@@ -85,3 +88,12 @@ class Algorithm:
         for square in self.squares:
             res[square] = '0'
         return res
+
+def time_decorator(func):
+        def wrapper(*arg):
+            initial_time = time.clock()
+            res = func(*arg)
+            time_result = time.clock() - initial_time
+            print "Sudoku solved in: " + str(time_result) + " seconds"
+            return res
+        return wrapper
