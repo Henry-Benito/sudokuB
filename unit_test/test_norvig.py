@@ -119,7 +119,7 @@ class TestNorvig(unittest.TestCase):
                                 '------+------+------\n' \
                                 '3 7 2 |6 8 9 |5 1 4 \n' \
                                 '8 1 4 |2 5 3 |7 6 9 \n' \
-                                '6 9 5 |4 1 7 |3 8 2 \n\n\n\n'
+                                '6 9 5 |4 1 7 |3 8 2 \n'
         self.assertEqual(expected_parsed_value, self.norvig.parse_sudoku_to_string
                         (self.norvig.solve(self.grid_with_zeros)))
 
