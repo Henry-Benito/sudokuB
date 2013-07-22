@@ -8,10 +8,14 @@ class ReadCsvFile:
     """
 
     def __init__(self, route_file):
-        self.route_file = route_file
-        self.open_file = open(self.route_file, 'r')
-        self.file_with_puzzle = self.open_file.read().strip().split('\n')
-        self.open_file.close()
+        try:
+            self.route_file = route_file
+            self.open_file = open(self.route_file, 'r')
+            self.file_with_puzzle = self.open_file.read().strip().split('\n')
+            self.open_file.close()
+        except:
+            print "Error reading " + self.route_file + " file"
+
 
     def read_file(self):
         """This function verify if a csv file contains one or more than one sudoku puzzles

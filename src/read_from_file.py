@@ -30,7 +30,7 @@ class ReadFromFile:
         sudoku_from_console = ""
         for row in range(9):
             try:
-                console_row = str(raw_input("Enter the 9 digits for %s row of sudoku:" % str(row)))
+                console_row = str(raw_input("Enter 9 digits for %s row of sudoku:" % str(row + 1)))
                 sudoku_from_console += console_row
             except:
                 sudoku_from_console = None
