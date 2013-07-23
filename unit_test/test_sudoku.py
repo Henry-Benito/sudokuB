@@ -5,10 +5,11 @@ from sudoku import Sudoku
 from settings import Settings
 
 
-class Test_Sudoku(unittest.TestCase):
+class TestSudoku(unittest.TestCase):
 
     def setUp(self):
         pass
+
 
     def test_sudoku_should_resolve_an_easy_sudoku_with_norvig_from_CSV_to_result(self):
         sudoku_test = Sudoku()

@@ -4,7 +4,7 @@ from settings import Settings
 import unittest
 
 
-class Test_settings(unittest.TestCase):
+class TestSettings(unittest.TestCase):
     def setUp(self):
         pass
     """
@@ -42,11 +42,15 @@ self.assertTrue(result)
     def test_get_current_settings_should_return_current_settings(self):
         settings_xml = Settings()
         settings_xml.read_settings_from_file()
-        
+        settings_xml.set_config("Algorithm", "Backtracking")
+        settings_xml.set_config("Input", "CSV")
+        settings_xml.set_config("Output", "TXT")
+        settings_xml.write_settings()
+        expected = {"Algorithm":"Backtracking", "Input": "CSV","Output":"TXT", "input_path":"../custom_games", "output_path": "../game_results", "max": "65", "min": "50", "Level": "Hard"}
         current_settings = settings_xml.get_current_settings()
-        shared_items = set(current_settings.items()) & set(expected.items())
+        self.assertEqual(current_settings.keys().sort(), expected.keys().sort())
+        self.assertEqual(current_settings.items().sort(), expected.items().sort())
 
-        self.assertEqual(True, True)
 
 
 if __name__ == '__main__':

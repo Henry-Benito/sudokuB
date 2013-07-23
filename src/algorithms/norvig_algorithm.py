@@ -81,7 +81,7 @@ class NorvigAlgorithm(Algorithm):
             return False
         elif len(values[square]) == 1:
             other_digit = values[square]
-            if not all(self.eliminate(values, other_square, other_digit)
+            if not all(self.eliminate(values, other_square, other_digit) \
                        for other_square in self.peers[square]):
                 return False
 

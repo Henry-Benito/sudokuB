@@ -4,7 +4,7 @@ sys.path.append("..\src\\algorithms")
 from backtracking import Backtracking
 
 
-class Test_Backtracking(unittest.TestCase):
+class TestBacktracking(unittest.TestCase):
 
     def setUp(self):
         self.easy = "003020600900305001001806400008102900700000008006708200" + \
@@ -35,6 +35,6 @@ class Test_Backtracking(unittest.TestCase):
         dict_result = self.back.solve(self.hard)
         result = self.back.dict_to_string(dict_result)
         self.assertEqual(expected_result_hard, result)
-    
+
 if __name__ == '__main__':
     unittest.main()

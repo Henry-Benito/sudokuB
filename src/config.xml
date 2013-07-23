@@ -7,9 +7,9 @@
     </Algorithms>
     
     <Difficult>
-        <Level default="False" max="39" min="30" name="Easy" />
-        <Level default="False" max="49" min="40" name="Medium" />
-        <Level default="True" max="65" min="50" name="Hard" />
+        <Level default="False" max="35" min="30" name="Easy" />
+        <Level default="False" max="50" min="40" name="Medium" />
+        <Level default="True" max="70" min="60" name="Hard" />
     </Difficult>
     
     <Outputs>
@@ -18,8 +18,8 @@
     
     <Inputs>
         <Input default="False" name="Console" path="" />
-        <Input default="False" name="TXT" path="../custom_games" />
-        <Input default="True" name="CSV" path="../custom_games" />
+        <Input default="True" name="TXT" path="../custom_games" />
+        <Input default="False" name="CSV" path="../custom_games" />
     </Inputs>
     
 </SUDOKU>

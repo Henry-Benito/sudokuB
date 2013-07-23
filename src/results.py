@@ -16,4 +16,4 @@ class Results:
             f.close()
             print "A sudoku was written in:" + str(saved_route)
         except:
-            raise ("Error writing sudoku in:" + str(saved_route))
+            print ("Error writing sudoku in:" + str(saved_route))

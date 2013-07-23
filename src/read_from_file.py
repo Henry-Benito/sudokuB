@@ -1,12 +1,12 @@
-import re
+
 from read_txt_file import ReadTxtFile
 from read_csv_file import ReadCsvFile
-
+import re
 
 class ReadFromFile:
+    
     def __init__(self):
         pass
-
     def read_file(self, route):
         """Reads a file and verify if the extension of the file is csv or txt in order to call the
         respective function to open it.
@@ -19,18 +19,19 @@ class ReadFromFile:
             res = self.csv.read_file()
         elif self.route[-3:] == 'txt':
             self.txt = ReadTxtFile(route)
-            res = self.txt.read_one_sudoku_puzzle()
+            res = self.txt.read_file()
         else:
             print ("There is no file in the directory")
         return res
 
     def get_sudoku_from_console(self):
-        """Return a string from user that contains a sudoku to solve.
+        """
+        Return a string from user that contains a sudoku to solve.
         """
         sudoku_from_console = ""
         for row in range(9):
             try:
-                console_row = str(raw_input("Enter the 9 digits for %s row of sudoku:" % str(row)))
+                console_row = str(raw_input("Enter 9 digits for %s row of sudoku:" % str(row + 1)))
                 sudoku_from_console += console_row
             except:
                 sudoku_from_console = None

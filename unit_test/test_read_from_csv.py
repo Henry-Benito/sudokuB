@@ -20,8 +20,8 @@ class TestReadFromCsv(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.route_several_sudokus))
 
     def test_read_a_csv_file_with_one_sudoku_puzzle(self):
-        expected_one_sudoku = ['00302060090030500100180640000810290070000000800' \
-                              '6708200002609500800203009005010300']
+        expected_one_sudoku = '00302060090030500100180640000810290070000000800' \
+                              '6708200002609500800203009005010300'
         one_sudoku = self.read_csv_one_sudoku.read_file()
         self.assertEqual(expected_one_sudoku, one_sudoku)
 

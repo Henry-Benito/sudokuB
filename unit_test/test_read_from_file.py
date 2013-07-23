@@ -21,7 +21,7 @@ class TestReadFromFile(unittest.TestCase):
 
     def test_read_txt_file_function(self):
         expected_read = self.read.read_file(self.route_txt_file)
-        self.assertEqual(expected_read, self.txt.read_one_sudoku_puzzle())
+        self.assertEqual(expected_read, self.txt.read_file())
 
 if __name__ == '__main__':
     unittest.main()
